@@ -1,26 +1,79 @@
 import decode from 'jwt-decode';
-
-interface Match {
-    params: any;
-    url: string;
-}
-
-interface Location {
-    pathname: string;
-}
-
-export interface Props {
-    match?: Match;
-    location?: Location;
-}
+import { Product } from '../components/Objects/Product';
+import { Category } from '../components/Objects/Category';
 
 const CART = 'cart';
+const CATEGORIES = 'categories';
+const CACHE = 'cache';
 const TOKEN = 'token';
+const CACHE_TIME = 7;
 export const getToken: any = () => localStorage.getItem(TOKEN);
 export const setToken: any = (token: string) => localStorage.setItem(TOKEN, token);
 export const deleteToken: any = () => localStorage.removeItem(TOKEN);
-export const getDecodedToken: any = () => decode(getToken());
-export const getUsername: any = () => getDecodedToken.username;
-export const getCart: any = () => JSON.parse(localStorage.getItem(CART) || '');
-export const setCart: any = (cart: any) => localStorage.setItem(CART, JSON.stringify(cart));
-export const resetCart: any = () => setCart({});
+export const getDecodedToken: any = () => getToken() && decode(getToken());
+export const getUsername: any = () => getDecodedToken() && getDecodedToken().username;
+export const getRoles: any = () => getDecodedToken() && getDecodedToken().roles;
+
+
+export const getCart: any = () => JSON.parse(localStorage.getItem(CART) || '{"totalItems": 0, "totalPrice": 0.00}');
+export const setCart: any = (cart: any) => { localStorage.setItem(CART, JSON.stringify(cart)); return getCart() };
+export const resetCart: any = () => { return setCart({totalItems: 0, totalPrice: 0.00}) };
+export const setCartFromToken: any = (obj: string) => {
+    let cart = JSON.parse(obj);
+    let populatedCart = resetCart();
+    cart.cartItems.map((cartItem: any) => populatedCart = populateCart(populatedCart, cartItem.product));
+    setCart(populatedCart);
+};
+export const updateCart: any = (product: Product) => {
+    "use strict";
+    if ('' === getCart()) {
+        resetCart();
+    }
+
+    let cart = getCart();
+
+    if (undefined === product.category || undefined === product.category) {
+        return;
+    }
+
+    return setCart(populateCart(cart, product));
+};
+const populateCart = (cart: any, product: any) => {
+    if (undefined !== cart[product.category.name]) {
+        if (undefined !== cart[product.category.name][product.name]) {
+            cart[product.category.name][product.name] = {
+                ...cart[product.category.name][product.name],
+                quantity: cart[product.category.name][product.name].quantity + 1,
+            };
+        } else {
+            cart[product.category.name][product.name] = generateNewProducttoCart(product);
+        }
+    } else {
+        cart[product.category.name] = {};
+        cart[product.category.name][product.name] = generateNewProducttoCart(product);
+    }
+
+    cart.totalItems = cart.totalItems + 1;
+    cart.totalPrice = (parseFloat(cart.totalPrice) + ( undefined !== product.pricePromotion ? product.pricePromotion : product.price )).toFixed(2);
+
+    return cart;
+};
+const generateNewProducttoCart = (product: Product) => ({
+    quantity: 1,
+    price: product.promotion ? product.pricePromotion : product.price,
+});
+
+
+export const getCategories = () => localStorage.getItem(CATEGORIES) ? JSON.parse(localStorage.getItem(CATEGORIES) || '') : null;
+export const setCategories = (categories: Category[]) => {
+    localStorage.setItem(CATEGORIES, JSON.stringify(categories));
+    setCache()
+};
+export const resetCategories = () => localStorage.removeItem(CATEGORIES);
+
+export const getCache = () => new Date(localStorage.getItem(CACHE) || '');
+export const setCache = () => {
+    let date = new Date();
+    date.setDate(date.getDate() + CACHE_TIME);
+    localStorage.setItem(CACHE, date.toString())
+};

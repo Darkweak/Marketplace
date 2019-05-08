@@ -1,4 +1,5 @@
 import { put } from 'redux-saga/effects';
+import { getToken } from '../helpers';
 
 interface CommonRequestProps {
   body?: any;
@@ -18,6 +19,9 @@ export function* commonRequest({
     const headers = new Headers();
     headers.append('Accept', 'application/ld+json');
     headers.append('Content-Type', 'application/ld+json');
+    if (getToken()) {
+        headers.append('Authorization', `Bearer ${getToken()}`)
+    }
     const request = new Request(
       `${process.env.REACT_APP_API_ENTRYPOINT}${path}`,
       {

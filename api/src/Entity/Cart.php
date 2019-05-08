@@ -7,16 +7,17 @@ use App\Traits\IdTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
- *     attributes={"normalization_context"={"groups"={"category_read"}}},
+ *     attributes={"normalization_context"={"groups"={"cart_read"}}},
  *     itemOperations={
  *         "get",
  *         "put"
  *     },
  *     collectionOperations={
- *         "get"={"normalization_context"={"groups"={"category_read_list"}}},
+ *         "get"={"access_control"="is_granted('ROLE_ADMIN')", "normalization_context"={"groups"={"cart_read_list"}}},
  *         "post"
  *     }
  * )
@@ -27,7 +28,8 @@ class Cart
     use IdTrait;
 
     /**
-     * @ORM\OneToMany(targetEntity=Cart::class, mappedBy="cart")
+     * @ORM\OneToMany(targetEntity=CartItem::class, mappedBy="cart")
+     * @Groups({"user_read"})
      */
     private $cartItems;
 

@@ -27,6 +27,15 @@ main {
     background-color: rgba(226, 226, 226, 0.9);
     color: #1A1A1A;
     z-index: 999;
+    opacity: 1;
+}
+
+#return-to-top.invisible {
+    opacity: 0;
+}
+
+.transitions {
+    transition: all ease-in-out 0.5s;
 }
 
 #return-to-top > i.fa-caret-up {
@@ -159,4 +168,29 @@ main {
 
 .navbar-brand {
     font-size: 1.2rem !important;
+}
+
+.fs-100 {
+    font-size: 100% !important;
+}
+
+.description-clamped {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* autoprefixer: off */
+    -webkit-box-orient: vertical;
+    /* autoprefixer: on */
+}
+
+.background-video {
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    filter: grayscale(100%);
+}
+
+.spinner-border {
+    border-width: 0.1em;
 }

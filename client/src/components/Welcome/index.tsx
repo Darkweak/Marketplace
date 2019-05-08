@@ -7,8 +7,6 @@ import { ProductReducerProps } from "../Item/store/productReducer";
 import { CategoryReducerProps } from "../Item/store/categoryReducer";
 import { Category } from "../Objects/Category";
 import { generateArticles, mapDispatchToProps } from "../Category/common";
-import { Image } from "../Objects/Image";
-import { BCarousel } from "../Carousel";
 
 interface Reducers {
     CategoryReducer: CategoryReducerProps,
@@ -18,25 +16,6 @@ const mapStateToProps = (reducers: Reducers) => ({
     categories: reducers.CategoryReducer.categories,
     products: reducers.ProductReducer.products
 });
-
-const images: Image[] = [
-    ({
-        name: 'Image 1',
-        url: 'https://picsum.photos/id/1/800/1200'
-    }),
-    ({
-        name: 'Image 2',
-        url: 'https://picsum.photos/id/238/800/1200'
-    }),
-    ({
-        name: 'Image 3',
-        url: 'https://picsum.photos/id/239/800/1200'
-    }),
-    ({
-        name: 'Image 4',
-        url: 'https://picsum.photos/id/240/800/1200'
-    }),
-];
 
 const generateCategories = (categories: Category[]) => {
   let items: any[] = [];
@@ -50,6 +29,21 @@ const generateCategories = (categories: Category[]) => {
   return items;
 };
 
+const services = [
+    {
+        logo: 'truck',
+        description: 'Nous vous offrons la livraison jusque chez vous'
+    },
+    {
+        logo: 'stopwatch',
+        description: 'Soyez livré en un temps record'
+    },
+    {
+        logo: 'headset',
+        description: 'Une disponibilité de notre support 7j/7 24h/24'
+    },
+]
+
 export const Welcome = compose(
     connect(
         mapStateToProps,
@@ -62,8 +56,10 @@ export const Welcome = compose(
         }
     })
 )(({ categories, products }: any) => (
-  <Layout noPadding>
-    <BCarousel images={images}/>
+  <Layout noPadding fixed>
+      <video autoPlay muted loop className="w-100 vh-100 background-video bg-black-30 img-fluid w-100 img-fit">
+          <source src="/background.mp4"/>
+      </video>
     <TextContainer divider>
       <h1 className="text-center">
         Découvrez nos dernières promotions
@@ -95,18 +91,14 @@ export const Welcome = compose(
         Un service de haut standing
       </h1>
       <div className="row m-0 pt-4">
-        <div className="col-sm-12 col-md-4 py-2">
-          <span className="display-1 d-block text-center"><i className="fas fa-truck"/></span>
-          <h3 className="d-block text-center text-muted">Nous vous offrons la livraison jusque chez vous</h3>
-        </div>
-        <div className="col-sm-12 col-md-4 py-2">
-          <span className="display-1 d-block text-center"><i className="fas fa-stopwatch"/></span>
-          <h3 className="d-block text-center text-muted">Soyez livré en un temps record</h3>
-        </div>
-        <div className="col-sm-12 col-md-4 py-2">
-          <span className="display-1 d-block text-center"><i className="fas fa-headset"/></span>
-          <h3 className="d-block text-center text-muted">Une disponibilité de notre support 7j/7 24h/24</h3>
-        </div>
+          {
+              services.map((service, index) => (
+                  <div key={index} className="col-sm-12 col-md-4 py-2">
+                      <span className="display-1 d-block text-center"><i className={`fas fa-${service.logo}`}/></span>
+                      <h3 className="d-block text-center text-muted">{service.description}</h3>
+                  </div>
+              ))
+          }
       </div>
     </TextContainer>
   </Layout>

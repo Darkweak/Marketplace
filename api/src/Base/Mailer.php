@@ -23,8 +23,11 @@ class Mailer
             ->setTo($user->getEmail())
             ->setBody(
                 $this->environment->render(
-                    $template,
-                    $params
+                    sprintf('%s.html.twig', $template),
+                    array_merge([
+                        'BASE_URL' => getenv('BASE_URL'),
+                        'MARKETPLACE' => getenv('MARKETPLACE_NAME')
+                    ], $params)
                 )
             )->setContentType("text/html");
         $this->mailer->send($message);

@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { formatFormDatas, GenerateForm } from './common';
-import { Field } from '../Objects/Field';
 import { Link } from '../Objects/Link';
 import { connect } from 'react-redux';
 import { UserReducerProps } from './store/UserReducer';
 import { Warning } from '../Common/Alert';
 import { login } from './store/login';
+import { password, username } from './fields';
 
 interface Reducers {
     UserReducer: UserReducerProps;
@@ -15,22 +15,14 @@ export const mapStateToProps = (reducers: Reducers) => ({
     isError: reducers.UserReducer.isError
 });
 
-const username: Field = {
-    label: 'Email ou pseudo',
-    placeholder: 'votre@email.fr / votrePseudo',
-    name: 'username'
-};
-
-const password: Field = {
-    label: 'Mot de passe',
-    placeholder: 'votremotdepasse',
-    name: 'password',
-    type: 'password'
-};
-
 const link: Link = {
     label: 'Pas encore de compte ?',
     path: '/register',
+};
+
+const link2: Link = {
+    label: 'Mot de passe oublié ?',
+    path: '/reset-password',
 };
 
 export const LoginForm: React.FunctionComponent = connect(
@@ -43,7 +35,7 @@ export const LoginForm: React.FunctionComponent = connect(
     })
 )(({ handleSubmit, isError }) => (
     <GenerateForm
-        additionnalLinks={[ link ]}
+        additionnalLinks={[ link, link2 ]}
         fields={[ username, password ]}
         onSubmit={handleSubmit}
     >

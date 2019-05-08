@@ -1,0 +1,8 @@
+{% extends '/base.html.twig' %}
+
+{% block body %}
+    <h2>Bienvenue sur {{ MARKETPLACE }}</h2>
+    <span>
+        Pour activer votre compte, veuillez cliquer sur <a href="{{ BASE_URL }}/activate/{{ token }}">ce lien</a>
+    </span>
+{% endblock %}

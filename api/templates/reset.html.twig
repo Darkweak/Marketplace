@@ -1,0 +1,9 @@
+{% extends '/base.html.twig' %}
+
+{% block body %}
+    <h2>Notification {{ MARKETPLACE }}</h2>
+    <span>
+        Vous avez oublié votre mot de passe, ne vous inquiétez pas cela arrive à tout le monde. Pour le réinitialiser cliquez sur
+        <a href="{{ BASE_URL }}/reset-password/{{ token }}">ce lien</a>
+    </span>
+{% endblock %}

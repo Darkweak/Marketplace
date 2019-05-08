@@ -7,8 +7,13 @@ const returnToTop = () => {
   }
 };
 
-export const ReturnToTop: React.FunctionComponent = () => (
-  <div id="return-to-top" onClick={() => returnToTop()}>
+interface ReturnToTopProps {
+    isHidden?: boolean
+}
+export const ReturnToTop = ({
+    isHidden
+}: ReturnToTopProps) => (
+  <div id="return-to-top" className={`transitions ${isHidden ? 'invisible' : 'visible'}`} onClick={() => returnToTop()}>
     <i className="fas fa-caret-up"/>
   </div>
 );

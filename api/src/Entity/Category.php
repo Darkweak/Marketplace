@@ -35,7 +35,7 @@ class Category
     /**
      * @ORM\Column(unique=true)
      * @Assert\NotBlank
-     * @Groups({"category_read", "category_read_list", "product_read_list"})
+     * @Groups({"category_read", "category_read_list", "product_read_list", "user_read"})
      */
     private $name;
 

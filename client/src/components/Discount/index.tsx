@@ -1,18 +1,19 @@
 import * as React from 'react';
 import { compose, lifecycle } from "recompose";
 import { connect } from "react-redux";
-import { CommonCategory, mapDispatchToProps, mapStateToProps } from "../Category/common";
+import { CommonCategory, mapDispatchToProps } from "../Category/common";
 
 export const Discount = compose(
     connect(
-        mapStateToProps,
+        null,
         mapDispatchToProps
     ),
     lifecycle({
         componentDidMount(){
-            this.props.getProduct('promotion=true');
+            const { getProduct }: any = this.props;
+            getProduct('promotion=true');
         }
     })
-)(({ products }: any) => (
-    <CommonCategory products={products} title={'Voici tous nos articles en promotion'}/>
+)(() => (
+    <CommonCategory title={'Voici tous nos articles en promotion'}/>
 ));

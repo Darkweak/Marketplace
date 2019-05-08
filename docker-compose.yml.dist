@@ -40,6 +40,8 @@ services:
       - MERCURE_SUBSCRIBE_URL=${HTTP_OR_SSL}mercure.${DOMAIN_NAME}$$
       - MERCURE_PUBLISH_URL=${HTTP_OR_SSL}mercure.${DOMAIN_NAME}$$
       - MERCURE_JWT_SECRET=${JWT_KEY}
+      - BASE_URL=${HTTP_OR_SSL}${DOMAIN_NAME}
+      - MARKETPLACE_NAME=${MARKETPLACE_NAME}
     volumes:
       - ./api:/srv/api:rw,cached
     <<: *network
@@ -104,6 +106,9 @@ services:
         - ${CONTAINER_REGISTRY_BASE}/client
     environment:
       - REACT_APP_API_ENTRYPOINT=${HTTP_OR_SSL}api.${DOMAIN_NAME}
+      - REACT_APP_MARKETPLACE_EMAIL=${REACT_APP_MARKETPLACE_EMAIL}
+      - REACT_APP_MARKETPLACE_LOCATION=${REACT_APP_MARKETPLACE_LOCATION}
+      - REACT_APP_MARKETPLACE_NAME=${MARKETPLACE_NAME}
     volumes:
       - ./client:/usr/src/client:rw,cached
       - /usr/src/client/node_modules

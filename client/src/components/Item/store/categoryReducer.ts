@@ -1,6 +1,7 @@
 import * as actions from './category';
 import { Reducer } from "redux";
 import { Category } from "../../Objects/Category";
+import { getCategories, setCategories } from '../../../helpers';
 
 export interface CategoryReducerProps {
     isError: boolean,
@@ -10,7 +11,7 @@ export interface CategoryReducerProps {
 
 export const CategoryReducer: Reducer = (state: CategoryReducerProps = {
     isError: false,
-    categories: [],
+    categories: getCategories() || [],
     category: undefined
 }, action: any) => {
     const {isList, type, payload} = action;
@@ -31,6 +32,7 @@ export const CategoryReducer: Reducer = (state: CategoryReducerProps = {
                 payload.map((item: Category) => {
                     categories.push(item)
                 });
+                setCategories(categories);
                 return {
                     ...state,
                     isError: false,

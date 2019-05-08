@@ -35,50 +35,50 @@ class Product
     /**
      * @ORM\Column
      * @Assert\NotBlank
-     * @Groups({"product_read_list", "category_read"})
+     * @Groups({"product_read_list", "category_read", "user_read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="float")
      * @Assert\NotBlank
-     * @Groups({"product_read_list", "category_read"})
+     * @Groups({"product_read_list", "category_read", "user_read"})
      */
     private $price;
 
     /**
      * @ORM\Column(type="boolean", options={"default"=false})
-     * @Groups({"product_read_list", "category_read"})
+     * @Groups({"product_read_list", "category_read", "user_read"})
      */
     private $promotion = false;
 
     /**
      * @ORM\Column(type="float", nullable=true)
-     * @Groups({"product_read_list", "category_read"})
+     * @Groups({"product_read_list", "category_read", "user_read"})
      */
     private $pricePromotion;
 
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank
-     * @Groups({"product_read_list", "category_read"})
+     * @Groups({"product_read_list", "category_read", "user_read"})
      */
     private $description;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="products")
-     * @Groups({"product_read_list"})
+     * @Groups({"product_read_list", "user_read"})
      */
     private $category;
 
     /**
      * @ORM\ManyToOne(targetEntity=Image::class, inversedBy="products")
-     * @Groups({"product_read_list"})
+     * @Groups({"product_read_list", "user_read"})
      */
     private $image;
 
     /**
-     * @ORM\OneToMany(targetEntity=Cart::class, mappedBy="cart")
+     * @ORM\OneToMany(targetEntity=CartItem::class, mappedBy="product")
      */
     private $cartItems;
 

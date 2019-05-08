@@ -38,5 +38,16 @@ class UserCreateSubscriber implements EventSubscriberInterface
         $user->setRoles(['ROLE_USER']);
         $cart = new Cart();
         $user->setCart($cart);
+        $token = hash('sha512',$user->getUsername().$user->getEmail().(new \DateTime())->format('Y-m-d H:i:s'));
+        $user->setToken($token);
+
+        $this->mailer->send(
+            $user,
+            'register',
+            'Bienvenue sur '.getenv('MARKETPLACE_NAME'),
+            [
+                'token' => $token
+            ]
+        );
     }
 }

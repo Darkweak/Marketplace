@@ -5,7 +5,7 @@ export interface Product {
     name: string,
     price: number,
     promotion: boolean,
-    pricePromotion?: number|null,
+    pricePromotion?: number,
     description: string,
     category: Category,
     image: Image

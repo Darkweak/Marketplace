@@ -5,15 +5,20 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Controller\ApplyResetPassword;
+use App\Controller\ChangePasswordCurrentUser;
+use App\Controller\RequestResetPassword;
+use App\Controller\RetrieveCurrentUser;
 use App\Repository\UserRepository;
 use App\Traits\IdTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
- *     attributes={"normalization_context"={"groups"={"category_read"}}},
+ *     attributes={"normalization_context"={"groups"={"user_read"}}},
  *     itemOperations={
  *         "get"={
  *             "access_control"="object == user"
@@ -27,7 +32,31 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     },
  *     collectionOperations={
  *         "get",
- *         "post"
+ *         "post",
+ *         "get_current_user"={
+ *             "access_control"="is_granted('ROLE_USER')",
+ *             "method"="GET",
+ *             "path"="/me",
+ *             "controller"=RetrieveCurrentUser::class
+ *         },
+ *         "change_current_user_password"={
+ *             "access_control"="is_granted('ROLE_USER')",
+ *             "method"="POST",
+ *             "path"="/change-password",
+ *             "controller"=ChangePasswordCurrentUser::class
+ *         },
+ *         "request_reset_user_password"={
+ *             "access_control"="is_granted('IS_AUTHENTICATED_ANONYMOUSLY')",
+ *             "method"="POST",
+ *             "path"="/reset-password/request",
+ *             "controller"=RequestResetPassword::class
+ *         },
+ *         "apply_reset_user_password"={
+ *             "access_control"="is_granted('IS_AUTHENTICATED_ANONYMOUSLY')",
+ *             "method"="POST",
+ *             "path"="/reset-password/apply",
+ *             "controller"=ApplyResetPassword::class
+ *         }
  *     }
  * )
  * @ApiFilter(SearchFilter::class, properties={"name": "exact"})
@@ -41,6 +70,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(unique=true)
      * @Assert\NotBlank
+     * @Groups({"user_read"})
      */
     private $username;
 
@@ -48,6 +78,7 @@ class User implements UserInterface
      * @ORM\Column
      * @Assert\NotBlank
      * @Assert\Email
+     * @Groups({"user_read"})
      */
     private $email;
 
@@ -58,12 +89,18 @@ class User implements UserInterface
     private $password;
 
     /**
+     * @ORM\Column(nullable=true)
+     */
+    private $token;
+
+    /**
      * @ORM\Column(type="json", nullable=true)
      */
     private $roles = [];
 
     /**
      * @ORM\OneToOne(targetEntity=Cart::class, cascade={"persist", "remove"})
+     * @Groups({"user_read"})
      */
     private $cart;
 
@@ -97,6 +134,17 @@ class User implements UserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(?string $token): self
+    {
+        $this->token = $token;
         return $this;
     }
 

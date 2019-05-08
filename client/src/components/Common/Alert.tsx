@@ -15,7 +15,7 @@ interface BaseAlertProps {
     | 'light';
 }
 const BaseAlert = ({ children, color }: BaseAlertProps) => (
-  <Alert className="text-center" variant={color}>
+  <Alert className="text-center w-100" variant={color}>
     { children }
   </Alert>
 );
@@ -34,6 +34,12 @@ export const Success = ({ children }: ChildrenInterface) => (
 
 export const Danger = ({ children }: ChildrenInterface) => (
   <BaseAlert color={'danger'}>
+    { children }
+  </BaseAlert>
+);
+
+export const Info = ({ children }: ChildrenInterface) => (
+  <BaseAlert color={'info'}>
     { children }
   </BaseAlert>
 );

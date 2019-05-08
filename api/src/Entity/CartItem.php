@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Traits\IdTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
@@ -26,14 +27,31 @@ class CartItem
     use IdTrait;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $quantity;
+
+    /**
      * @ORM\ManyToOne(targetEntity=Cart::class, inversedBy="cartItems")
      */
     private $cart;
 
     /**
      * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="cartItems")
+     * @Groups({"user_read"})
      */
     private $product;
+
+    public function getQuantity(): int
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(int $quantity): self
+    {
+        $this->quantity = $quantity;
+        return $this;
+    }
 
     public function getCart(): Cart
     {
@@ -54,7 +72,6 @@ class CartItem
     public function setProduct(Product $product): self
     {
         $this->product = $product;
-
         return $this;
     }
 }
