@@ -16,7 +16,10 @@ export interface UserReducerProps {
     isLogged: boolean;
     token: string;
     username: string;
+    isLoginError: boolean;
+    isRegisterError: boolean;
     isError: boolean;
+    isRegisterSuccess: boolean;
     isSuccess: boolean;
     accountCreated: boolean;
     user: any;
@@ -27,7 +30,10 @@ const initialState: UserReducerProps = {
     token: getToken(),
     username: getUsername(),
     accountCreated: false,
+    isLoginError: false,
+    isRegisterError: false,
     isError: false,
+    isRegisterSuccess: false,
     isSuccess: false,
     user: null
 };
@@ -40,7 +46,7 @@ export const UserReducer: Reducer = (state: UserReducerProps = initialState, act
                 isLogged: false,
                 token: null,
                 username: null,
-                isError: true
+                isLoginError: true
             };
         case login.LOGIN_REQUEST:
             return {
@@ -48,7 +54,7 @@ export const UserReducer: Reducer = (state: UserReducerProps = initialState, act
                 isLogged: false,
                 token: null,
                 username: null,
-                isError: false
+                isLoginError: false
             };
         case login.LOGIN_SUCCESS:
             setToken(payload.token);
@@ -59,7 +65,7 @@ export const UserReducer: Reducer = (state: UserReducerProps = initialState, act
                 isLogged: true,
                 token: getToken(),
                 username: getUsername(),
-                isError: false
+                isLoginError: false
             };
         case login.LOGOUT:
             deleteToken();
@@ -70,25 +76,28 @@ export const UserReducer: Reducer = (state: UserReducerProps = initialState, act
                 isLogged: false,
                 token: null,
                 username: null,
-                isError: false
+                isLoginError: false
             };
         case register.REGISTER_FAILED:
             return {
                 ...state,
                 accountCreated: false,
-                isError: true
+                isRegisterSuccess: false,
+                isRegisterError: true
             };
         case register.REGISTER_REQUEST:
             return {
                 ...state,
                 accountCreated: false,
-                isError: false
+                isRegisterSuccess: false,
+                isRegisterError: false
             };
         case register.REGISTER_SUCCESS:
             return {
                 ...state,
                 accountCreated: true,
-                isError: false
+                isRegisterSuccess: true,
+                isRegisterError: false
             };
         case user.USER_FAILED:
             return {

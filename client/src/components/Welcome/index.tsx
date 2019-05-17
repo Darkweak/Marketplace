@@ -7,6 +7,7 @@ import { ProductReducerProps } from "../Item/store/productReducer";
 import { CategoryReducerProps } from "../Item/store/categoryReducer";
 import { Category } from "../Objects/Category";
 import { generateArticles, mapDispatchToProps } from "../Category/common";
+import { AutoplayInfinite } from '../Rating';
 
 interface Reducers {
     CategoryReducer: CategoryReducerProps,
@@ -28,21 +29,6 @@ const generateCategories = (categories: Category[]) => {
   );
   return items;
 };
-
-const services = [
-    {
-        logo: 'truck',
-        description: 'Nous vous offrons la livraison jusque chez vous'
-    },
-    {
-        logo: 'stopwatch',
-        description: 'Soyez livré en un temps record'
-    },
-    {
-        logo: 'headset',
-        description: 'Une disponibilité de notre support 7j/7 24h/24'
-    },
-]
 
 export const Welcome = compose(
     connect(
@@ -88,17 +74,10 @@ export const Welcome = compose(
     </TextContainer>
     <TextContainer>
       <h1 className="text-center">
-        Un service de haut standing
+        Votre satisfaction est notre priorité
       </h1>
       <div className="row m-0 pt-4">
-          {
-              services.map((service, index) => (
-                  <div key={index} className="col-sm-12 col-md-4 py-2">
-                      <span className="display-1 d-block text-center"><i className={`fas fa-${service.logo}`}/></span>
-                      <h3 className="d-block text-center text-muted">{service.description}</h3>
-                  </div>
-              ))
-          }
+          <AutoplayInfinite/>
       </div>
     </TextContainer>
   </Layout>

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Cart } from './components/Cart';
 import { Category } from './components/Category';
 import { Discount } from './components/Discount';
-import { Login } from './components/Login';
+import { Connection } from './components/Connexion';
 import { Register } from './components/Register';
 import { Welcome } from './components/Welcome';
 import { Profile } from './components/Profile';
@@ -23,8 +23,8 @@ const is_granted = (component: any) => {
 
 export const routes = [
     {
-        component: Login,
-        url: '/login'
+        component: Connection,
+        url: '/connection'
     },
     {
         component: () => is_granted(<Cart/>),

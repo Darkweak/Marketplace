@@ -12,12 +12,13 @@ interface Reducers {
 }
 
 export const mapStateToProps = (reducers: Reducers) => ({
-    isError: reducers.UserReducer.isError
+    isLoginError: reducers.UserReducer.isLoginError,
+    isRegisterError: reducers.UserReducer.isRegisterError
 });
 
 const link: Link = {
     label: 'Pas encore de compte ?',
-    path: '/register',
+    path: '/connection',
 };
 
 const link2: Link = {
@@ -25,7 +26,7 @@ const link2: Link = {
     path: '/reset-password',
 };
 
-export const LoginForm: React.FunctionComponent = connect(
+export const LoginForm = connect(
     mapStateToProps,
     dispatch => ({
         handleSubmit: (event: any) => {
@@ -33,14 +34,15 @@ export const LoginForm: React.FunctionComponent = connect(
             dispatch(login(formatFormDatas(event.target.elements)))
         }
     })
-)(({ handleSubmit, isError }) => (
+)(({ handleSubmit, isLoginError, ...rest }: any) => (
     <GenerateForm
         additionnalLinks={[ link, link2 ]}
         fields={[ username, password ]}
         onSubmit={handleSubmit}
+        {...rest}
     >
         {
-            isError &&
+            isLoginError &&
                 <Warning>
                     <span>Identifiant ou mot de passe incorrect</span>
                 </Warning>

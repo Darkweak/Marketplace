@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Field } from '../Objects/Field';
 import { Link } from '../Objects/Link';
-import { Spinner } from 'react-bootstrap';
 
 const mapStateToProps = ({CommonReducer: {isLoading}}: any) => ({isLoading});
 
@@ -57,7 +56,8 @@ export const GenerateForm: React.FunctionComponent<FormProps> = connect<any, any
        children,
        fields,
        isLoading,
-       onSubmit
+       onSubmit,
+       withoutText
    }) => <Form onSubmit={onSubmit}>
         {children}
         {
@@ -68,7 +68,11 @@ export const GenerateForm: React.FunctionComponent<FormProps> = connect<any, any
         </Button>
         <div className="py-2 text-center">
             {
-                additionnalLinks.map((link: Link, index: number) => <a className="d-block" key={index} href={link.path}>{link.label}</a>)
+                withoutText ?
+                    null :
+                    additionnalLinks.map(
+                        (link: Link, index: number) => <a className="d-block" key={index} href={link.path}>{link.label}</a>
+                    )
             }
         </div>
     </Form>

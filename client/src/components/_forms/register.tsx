@@ -1,17 +1,12 @@
 import * as React from 'react';
 import { formatFormDatas, GenerateForm } from './common';
-import { Link } from '../Objects/Link';
 import { register } from './store/register';
 import { connect } from 'react-redux';
 import { mapStateToProps } from './login';
 import { email, password, pseudo } from './fields';
+import { Danger } from '../Common/Alert';
 
-const link: Link = {
-    label: 'Déjà un compte ?',
-    path: '/login'
-};
-
-export const RegisterForm: React.FunctionComponent = connect(
+export const RegisterForm = connect(
     mapStateToProps,
     dispatch => ({
         handleSubmit: (event: any) => {
@@ -19,10 +14,17 @@ export const RegisterForm: React.FunctionComponent = connect(
             dispatch(register(formatFormDatas(event.target.elements)));
         }
     })
-)(({ handleSubmit }) => (
+)(({ handleSubmit, isRegisterError, ...rest }: any) => (
   <GenerateForm
-      additionnalLinks={[link]}
       fields={[email, pseudo, password]}
       onSubmit={handleSubmit}
-  />
+      {...rest}
+  >
+      {
+          isRegisterError &&
+          <Danger>
+              <span>Une erreur est survenue lors de la création de votre compte</span>
+          </Danger>
+      }
+  </GenerateForm>
 ));

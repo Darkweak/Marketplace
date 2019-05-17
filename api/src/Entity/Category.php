@@ -14,7 +14,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
- *     attributes={"normalization_context"={"groups"={"category_read"}}},
+ *     attributes={
+ *         "normalization_context"={"groups"={"category_read"}},
+ *         "pagination_enabled"=false
+ *     },
  *     itemOperations={
  *         "get",
  *         "put",

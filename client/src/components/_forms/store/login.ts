@@ -3,15 +3,11 @@ export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGOUT = 'LOGOUT';
 
-export function login(data?: any) {
-    return {
-        payload: data,
-        type: LOGIN_REQUEST
-    }
-};
+export const login = (data?: any) => ({
+    payload: data,
+    type: LOGIN_REQUEST
+});
 
-export function logout() {
-    return {
-        type: LOGOUT
-    }
-};
+export const logout = () => ({
+    type: LOGOUT
+});

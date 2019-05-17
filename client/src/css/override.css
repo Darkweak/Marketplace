@@ -141,7 +141,7 @@ main {
 
 .promoted-product::after {
     content: 'Promo';
-    width: 100%;
+    width: 200%;
     text-align: center;
     background-color: #e7040f;
     transform: rotate(45deg);
@@ -149,8 +149,8 @@ main {
     font-size: 1.2rem;
     position: absolute;
     overflow: hidden;
-    right: -35%;
-    top: 15%;
+    right: -85%;
+    top: 10%;
 }
 
 .img-fit {
