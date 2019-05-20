@@ -3,6 +3,7 @@ import { CategoryReducer } from './components/Item/store/categoryReducer';
 import { CommonReducer } from './components/_forms/store/commonReducer';
 import { NavbarReducer } from './components/Common/store/NavbarReducer';
 import { ProductReducer } from './components/Item/store/productReducer';
+import { SnackbarReducer } from './components/Common/store/snackbarReducer';
 import { UserReducer } from './components/_forms/store/UserReducer';
 
 export const reducers = {
@@ -11,5 +12,6 @@ export const reducers = {
     CommonReducer,
     NavbarReducer,
     ProductReducer,
+    SnackbarReducer,
     UserReducer
 };

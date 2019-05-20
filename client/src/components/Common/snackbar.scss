@@ -1,0 +1,17 @@
+$snackbar-error: #d32f2f;
+$snackbar-warning: #ffa000;
+$snackbar-info: #1976d2;
+$snackbar-success: #43a047;
+
+.snackbar-error {
+    background-color: $snackbar-error;
+}
+.snackbar-warning {
+    background-color: $snackbar-warning;
+}
+.snackbar-info {
+    background-color: $snackbar-info;
+}
+.snackbar-success {
+    background-color: $snackbar-success;
+}

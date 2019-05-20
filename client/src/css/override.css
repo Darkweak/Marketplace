@@ -39,10 +39,9 @@ main {
 }
 
 #return-to-top > i.fa-caret-up {
-    font-size: 2rem;
-    position: absolute;
-    top: 50%;
-    transform: translate(50%, -50%);
+    font-size: 2.5rem;
+    position: relative;
+    margin: auto;
 }
 
 #return-to-top:hover {
@@ -72,32 +71,9 @@ main {
     z-index: 999999;
 }
 
-.categories-navbar:not(:nth-child(2n)):not(:last-child) {
-    border-right: 1px solid darkgrey;
-}
-
-@media screen and (min-width: 1200px) {
-    .categories-welcome:not(:nth-child(6n)):not(:last-child) {
-        border-right: 1px solid darkgrey;
-    }
-}
-
-@media screen and (min-width: 769px) and (max-width: 1199px) {
-    .categories-welcome:not(:nth-child(4n)):not(:last-child) {
-        border-right: 1px solid darkgrey;
-    }
-}
-
-@media screen and (min-width: 576px) and (max-width: 768px) {
-    .categories-welcome:not(:nth-child(3n)):not(:last-child) {
-        border-right: 1px solid darkgrey;
-    }
-}
-
-@media screen and (max-width: 575px) {
-    .categories-welcome:nth-child(2n+1) {
-        border-right: 1px solid darkgrey;
-    }
+.card-categories:hover {
+    cursor: pointer;
+    background-color: rgba(0,0,0,0.002);
 }
 
 #categories-dropdown {
@@ -110,7 +86,7 @@ main {
 
 .text-divider {
     height: 35px;
-    background-color: rgba(0,0,0,0.075);
+    background-color: #f5f5f5;
     position: relative;
 }
 
@@ -132,7 +108,7 @@ main {
 
 .reverse-text-divider::after {
     background-color: white;
-    border-top: 35px solid rgba(0,0,0,0.075);
+    border-top: 35px solid #f5f5f5;
 }
 
 .promoted-product {
@@ -193,4 +169,8 @@ main {
 
 .spinner-border {
     border-width: 0.1em;
+}
+
+#notification-center {
+    max-width: 300px;
 }

@@ -20,6 +20,7 @@ class Mailer
     {
         $message = (new \Swift_Message($title))
             ->setFrom('no-reply@marketplace.com')
+            ->setReplyTo('no-reply@marketplace.com')
             ->setTo($user->getEmail())
             ->setBody(
                 $this->environment->render(

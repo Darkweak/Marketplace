@@ -15,6 +15,7 @@ import { TextContainer } from './ObliqueContainer';
 import { NavbarReducerProps } from './store/NavbarReducer';
 import { updateNavbarPosition } from './store/navbar';
 import { getCache, getCategories } from '../../helpers';
+import { NotificationsContainer } from './Snackbar';
 
 export interface ChildrenInterface {
     children: any;
@@ -141,7 +142,7 @@ const Footer: React.FunctionComponent = () => (
                         <span className="text-muted col-sm-12">Restons en contact</span>
                         <div className="col-sm-12 d-flex justify-content-around">
                             {
-                                brands.map((brand, index) => <i key={index} className={`fab fa-${brand} display-4`}/>)
+                                brands.map((brand, index) => <a href={`https://${brand}.com`} key={index} className={`d-flex text-decoration-none text-muted fab fa-${brand} display-4`}/>)
                             }
                         </div>
                     </div>
@@ -155,7 +156,7 @@ const LayoutStateToProps = (reducers: Reducers) => ({
     position: reducers.NavbarReducer.position
 });
 const LayoutDispatchToProps = (dispatch: (args?: any) => void) => ({
-    updateNavbarPosition: (args: any) => dispatch(updateNavbarPosition(args)),
+    updateNavbarPosition: (args: any) => dispatch(updateNavbarPosition(args))
 });
 export const Layout: any = compose(
     connect(
@@ -203,5 +204,6 @@ export const Layout: any = compose(
             <ReturnToTop isHidden={ !position || position < 50 }/>
         </main>
         <Footer/>
+        <NotificationsContainer/>
     </React.Fragment>
 ));

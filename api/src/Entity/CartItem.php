@@ -11,13 +11,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource(
  *     attributes={"normalization_context"={"groups"={"category_read"}}},
  *     itemOperations={
- *         "get",
- *         "put",
- *         "delete"
+ *         "get"={"access_control"="is_granted('ROLE_ADMIN')"}
  *     },
  *     collectionOperations={
- *         "get"={"normalization_context"={"groups"={"category_read_list"}}},
- *         "post"
+ *         "get"={"access_control"="is_granted('ROLE_ADMIN')"}
  *     }
  * )
  * @ORM\Entity
@@ -28,6 +25,7 @@ class CartItem
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"user_read"})
      */
     private $quantity;
 

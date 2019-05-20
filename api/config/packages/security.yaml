@@ -29,7 +29,7 @@ security:
                     - lexik_jwt_authentication.jwt_token_authenticator
     
     access_control:
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/reset-password, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(login|reset-password), roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/users, methods: [POST], roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, methods: [GET], roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: IS_AUTHENTICATED_FULLY }

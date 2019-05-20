@@ -20,12 +20,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     },
  *     itemOperations={
  *         "get",
- *         "put",
- *         "delete"
+ *         "put"={"access_control"="is_granted('ROLE_ADMIN')"},
+ *         "delete"={"access_control"="is_granted('ROLE_ADMIN')"}
  *     },
  *     collectionOperations={
  *         "get"={"normalization_context"={"groups"={"category_read_list"}}},
- *         "post"
+ *         "post"={"access_control"="is_granted('ROLE_ADMIN')"}
  *     }
  * )
  * @ApiFilter(SearchFilter::class, properties={"name": "exact"})

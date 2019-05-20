@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Button } from 'react-bootstrap';
 import { Product } from '../Objects/Product';
 import { connect } from 'react-redux';
-import { updateCart } from '../Cart/store/cart';
+import { addToCart } from '../Cart/store/cart';
 import { UserReducerProps } from '../_forms/store/UserReducer';
 
 interface Reducers {
@@ -16,15 +16,15 @@ const mapStateToProps = ( reducers: Reducers ) => ({
 interface ProductProps {
     isLogged?: boolean,
     product: Product,
-    updateCart?: (args: any) => void;
+    addToCart?: (args: any) => void;
 }
 
 export const Item: React.FunctionComponent<ProductProps> = connect(
     mapStateToProps,
     dispatch => ({
-        updateCart: (...args: any) => dispatch(updateCart(args))
+        addToCart: (...args: any) => dispatch(addToCart(args))
     })
-)(({ isLogged, product, updateCart }: ProductProps) => (
+)(({ isLogged, product, addToCart }: ProductProps) => (
     <div className="card h-100 shadow">
         <div className={`position-relative d-flex${product.promotion && ' promoted-product'}`}>
             <img
@@ -46,7 +46,7 @@ export const Item: React.FunctionComponent<ProductProps> = connect(
             <h5 className="card-title text-center">{product.name}</h5>
             <p className="card-text description-clamped">{product.description}</p>
             <div className="text-center">
-                <Button onClick={() => isLogged ? undefined !== updateCart && updateCart(product) : window.location.pathname = '/login' }>
+                <Button onClick={() => isLogged ? undefined !== addToCart && addToCart({...product, quantity: 1, type: 'add'}) : window.location.pathname = '/connection' }>
                     <i className="fas fa-cart-arrow-down"/> Ajouter au panier
                 </Button>
             </div>

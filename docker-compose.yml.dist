@@ -42,6 +42,8 @@ services:
       - MERCURE_JWT_SECRET=${JWT_KEY}
       - BASE_URL=${HTTP_OR_SSL}${DOMAIN_NAME}
       - MARKETPLACE_NAME=${MARKETPLACE_NAME}
+      - NOTIFICATION_EMAIL=${NOTIFICATION_EMAIL}
+      - NOTIFICATION_EMAIL_PASS=${NOTIFICATION_EMAIL_PASS}
     volumes:
       - ./api:/srv/api:rw,cached
     <<: *network
@@ -109,6 +111,7 @@ services:
       - REACT_APP_MARKETPLACE_EMAIL=${REACT_APP_MARKETPLACE_EMAIL}
       - REACT_APP_MARKETPLACE_LOCATION=${REACT_APP_MARKETPLACE_LOCATION}
       - REACT_APP_MARKETPLACE_NAME=${MARKETPLACE_NAME}
+      - REACT_APP_MARKETPLACE_PHONE=${REACT_APP_MARKETPLACE_PHONE}
     volumes:
       - ./client:/usr/src/client:rw,cached
       - /usr/src/client/node_modules

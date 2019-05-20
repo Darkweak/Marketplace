@@ -10,6 +10,7 @@ import { ChangePassword } from './components/Profile/change';
 import { ResetPassword } from './components/Login/resetPassword';
 import { CGU } from './components/Static/cgu';
 import { getRoles } from './helpers';
+import { About } from './components/Static/about';
 
 const ROLE_USER = 'ROLE_USER';
 
@@ -25,6 +26,10 @@ export const routes = [
     {
         component: Connection,
         url: '/connection'
+    },
+    {
+        component: About,
+        url: '/about'
     },
     {
         component: () => is_granted(<Cart/>),

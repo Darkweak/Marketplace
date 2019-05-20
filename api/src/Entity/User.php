@@ -2,9 +2,7 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Controller\ApplyResetPassword;
 use App\Controller\ChangePasswordCurrentUser;
 use App\Controller\RequestResetPassword;
@@ -18,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
- *     attributes={"normalization_context"={"groups"={"user_read"}}},
+ *     attributes={"normalization_context"={"groups"={"user_read"}}, "access_control"="is_granted('ROLE_USER')"},
  *     itemOperations={
  *         "get"={
  *             "access_control"="object == user"
@@ -31,35 +29,32 @@ use Symfony\Component\Validator\Constraints as Assert;
  *         }
  *     },
  *     collectionOperations={
- *         "get",
- *         "post",
+ *         "get"={"access_control"="is_granted('ROLE_ADMIN')"},
+ *         "post"={"access_control"="is_granted('IS_AUTHENTICATED_ANONYMOUSLY')"},
  *         "get_current_user"={
- *             "access_control"="is_granted('ROLE_USER')",
  *             "method"="GET",
  *             "path"="/me",
  *             "controller"=RetrieveCurrentUser::class
  *         },
  *         "change_current_user_password"={
- *             "access_control"="is_granted('ROLE_USER')",
  *             "method"="POST",
  *             "path"="/change-password",
  *             "controller"=ChangePasswordCurrentUser::class
  *         },
  *         "request_reset_user_password"={
- *             "access_control"="is_granted('IS_AUTHENTICATED_ANONYMOUSLY')",
  *             "method"="POST",
+ *             "access_control"="is_granted('IS_AUTHENTICATED_ANONYMOUSLY')",
  *             "path"="/reset-password/request",
  *             "controller"=RequestResetPassword::class
  *         },
  *         "apply_reset_user_password"={
- *             "access_control"="is_granted('IS_AUTHENTICATED_ANONYMOUSLY')",
  *             "method"="POST",
+ *             "access_control"="is_granted('IS_AUTHENTICATED_ANONYMOUSLY')",
  *             "path"="/reset-password/apply",
  *             "controller"=ApplyResetPassword::class
  *         }
  *     }
  * )
- * @ApiFilter(SearchFilter::class, properties={"name": "exact"})
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="users")
  */
@@ -75,7 +70,7 @@ class User implements UserInterface
     private $username;
 
     /**
-     * @ORM\Column
+     * @ORM\Column(unique=true)
      * @Assert\NotBlank
      * @Assert\Email
      * @Groups({"user_read"})

@@ -21,7 +21,7 @@ export const resetCart: any = () => { return setCart({totalItems: 0, totalPrice:
 export const setCartFromToken: any = (obj: string) => {
     let cart = JSON.parse(obj);
     let populatedCart = resetCart();
-    cart.cartItems.map((cartItem: any) => populatedCart = populateCart(populatedCart, cartItem.product));
+    cart.cartItems.map((cartItem: any) => populatedCart = populateCart(populatedCart, cartItem.product, cartItem.quantity));
     setCart(populatedCart);
 };
 export const updateCart: any = (product: Product) => {
@@ -36,30 +36,30 @@ export const updateCart: any = (product: Product) => {
         return;
     }
 
-    return setCart(populateCart(cart, product));
+    return setCart(populateCart(cart, product, 1));
 };
-const populateCart = (cart: any, product: any) => {
+const populateCart = (cart: any, product: any, quantity = 1) => {
     if (undefined !== cart[product.category.name]) {
         if (undefined !== cart[product.category.name][product.name]) {
             cart[product.category.name][product.name] = {
                 ...cart[product.category.name][product.name],
-                quantity: cart[product.category.name][product.name].quantity + 1,
+                quantity: cart[product.category.name][product.name].quantity + quantity,
             };
         } else {
-            cart[product.category.name][product.name] = generateNewProducttoCart(product);
+            cart[product.category.name][product.name] = generateNewProducttoCart(product, quantity);
         }
     } else {
         cart[product.category.name] = {};
-        cart[product.category.name][product.name] = generateNewProducttoCart(product);
+        cart[product.category.name][product.name] = generateNewProducttoCart(product, quantity);
     }
 
-    cart.totalItems = cart.totalItems + 1;
-    cart.totalPrice = (parseFloat(cart.totalPrice) + ( undefined !== product.pricePromotion ? product.pricePromotion : product.price )).toFixed(2);
+    cart.totalItems = cart.totalItems + quantity;
+    cart.totalPrice = (parseFloat(cart.totalPrice) + ( undefined !== product.pricePromotion ? product.pricePromotion : product.price ) * quantity).toFixed(2);
 
     return cart;
 };
-const generateNewProducttoCart = (product: Product) => ({
-    quantity: 1,
+const generateNewProducttoCart = (product: Product, quantity: number) => ({
+    quantity: quantity,
     price: product.promotion ? product.pricePromotion : product.price,
 });
 

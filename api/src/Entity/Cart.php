@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\UpdateCart;
 use App\Traits\IdTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,12 +14,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource(
  *     attributes={"normalization_context"={"groups"={"cart_read"}}},
  *     itemOperations={
- *         "get",
- *         "put"
+ *         "get"={"access_control"="is_granted('ROLE_ADMIN')"}
  *     },
  *     collectionOperations={
  *         "get"={"access_control"="is_granted('ROLE_ADMIN')", "normalization_context"={"groups"={"cart_read_list"}}},
- *         "post"
+ *         "post_publication"={
+ *             "method"="POST",
+ *             "path"="/cart/update",
+ *             "defaults"={"_api_receive"=false},
+ *             "controller"=UpdateCart::class,
+ *         }
  *     }
  * )
  * @ORM\Entity

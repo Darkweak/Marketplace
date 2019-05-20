@@ -23,7 +23,7 @@ export const TextContainer: React.FunctionComponent<TextContainerProps> = ({
    secondary
 }) => (
   <React.Fragment>
-    <div className={`py-5 ${secondary && 'table-active'}`}>
+    <div className={`py-5 ${secondary && 'footer'}`}>
       <div className={`container`}>
         { children }
       </div>

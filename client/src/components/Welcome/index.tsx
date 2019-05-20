@@ -22,9 +22,11 @@ const generateCategories = (categories: Category[]) => {
   let items: any[] = [];
   categories.map((category: Category, index: number) =>
       items.push(
-          <div key={index} className="col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 text-center categories-welcome">
-              {category.name}
-          </div>
+          <a href={`/categories/${category.name}`} key={index} className="col-6 col-sm-4 col-md-3 col-lg-3 py-2 text-center text-decoration-none">
+              <div className="card p-2 shadow-sm card-categories">
+                  {category.name}
+              </div>
+          </a>
       )
   );
   return items;

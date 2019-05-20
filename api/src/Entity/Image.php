@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
+ *     attributes={"access_control"="is_granted('ROLE_ADMIN')"},
  *     itemOperations={
  *         "get",
  *         "put"

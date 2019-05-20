@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     },
  *     itemOperations={
  *         "get",
- *         "put"
+ *         "put"={"access_control"="is_granted('ROLE_ADMIN')"}
  *     }
  * )
  * @ApiFilter(SearchFilter::class, properties={"name": "partial", "category.name":"exact"})
