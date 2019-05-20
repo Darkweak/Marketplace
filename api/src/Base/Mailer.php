@@ -19,8 +19,8 @@ class Mailer
     public function send(User $user, string $template, string $title, array $params = []): void
     {
         $message = (new \Swift_Message($title))
-            ->setFrom('no-reply@marketplace.com')
-            ->setReplyTo('no-reply@marketplace.com')
+            ->setFrom(getenv('NOTIFICATION_EMAIL'))
+            ->setReplyTo(getenv('NOTIFICATION_EMAIL_PASS'))
             ->setTo($user->getEmail())
             ->setBody(
                 $this->environment->render(
