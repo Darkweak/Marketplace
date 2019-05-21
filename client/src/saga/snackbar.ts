@@ -6,13 +6,13 @@ import {
 } from '../components/Common/store/snackbar';
 import { Snackbar } from '../components/Objects/Snackbar';
 
-export const delay = (ms: any) => new Promise(res => setTimeout(res, ms))
+export const delay = (ms: any) => new Promise((res) => setTimeout(res, ms));
 
 function* handleSnackbar(action: any) {
   const {payload, type} = action;
   switch (type) {
     case UPDATE_SNACKBAR:
-        let snackbar: Snackbar = {
+        const snackbar: Snackbar = {
             type: payload.type,
             text : payload.text
         };

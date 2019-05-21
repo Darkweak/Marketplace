@@ -14,7 +14,7 @@ export const mapStateToProps = (reducers: Reducers) => ({
     isError: reducers.UserReducer.isError
 });
 
-export const ChangePasswordForm: React.FunctionComponent = connect(
+export const ChangePasswordForm = connect(
     mapStateToProps,
     dispatch => ({
         handleSubmit: (event: any) => {
