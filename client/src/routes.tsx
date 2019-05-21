@@ -11,6 +11,7 @@ import { ResetPassword } from './components/Login/resetPassword';
 import { CGU } from './components/Static/cgu';
 import { getRoles } from './helpers';
 import { About } from './components/Static/about';
+import { Activate } from './components/Activate';
 
 const ROLE_USER = 'ROLE_USER';
 
@@ -30,6 +31,10 @@ export const routes = [
     {
         component: About,
         url: '/about'
+    },
+    {
+        component: Activate,
+        url: '/activate/:token'
     },
     {
         component: () => is_granted(<Cart/>),

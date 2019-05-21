@@ -1,6 +1,10 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+index:
+    path: /
+    controller: App\Controller\DefaultController
+
+activate:
+    path: /activate
+    controller: App\Controller\Activate
 
 login:
     path: /login

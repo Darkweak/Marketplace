@@ -10,6 +10,9 @@ export const USER_APPLY_RESET_PASSWORD_SUCCESS = 'USER_APPLY_RESET_PASSWORD_SUCC
 export const USER_FAILED = 'USER_FAILED';
 export const USER_REQUEST = 'USER_REQUEST';
 export const USER_SUCCESS = 'USER_SUCCESS';
+export const USER_ACTIVATE_FAILED = 'USER_ACTIVATE_FAILED';
+export const USER_ACTIVATE_REQUEST = 'USER_ACTIVATE_REQUEST';
+export const USER_ACTIVATE_SUCCESS = 'USER_ACTIVATE_SUCCESS';
 
 export function getUser() {
     return {
@@ -37,3 +40,8 @@ export function applyResetPassword(data: any, additional?: any) {
         type: USER_APPLY_RESET_PASSWORD_REQUEST
     }
 };
+
+export const  activateUser = (payload: any) => ({
+    type: USER_ACTIVATE_REQUEST,
+    payload
+})

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { UserReducerProps } from './store/UserReducer';
 import { Success } from '../Common/Alert';
 import { newpassword, username } from './fields';
-import { applyResetPassword } from './store/user';
+import { applyResetPassword, resetPassword } from './store/user';
 import { Link } from '../Objects/Link';
 
 interface Reducers {
@@ -25,7 +25,7 @@ export const RequestResetPasswordForm: any = connect(
     dispatch => ({
         handleSubmit: (event: any) => {
             event.preventDefault();
-            dispatch(applyResetPassword(formatFormDatas(event.target.elements)))
+            dispatch(resetPassword(formatFormDatas(event.target.elements)))
         }
     })
 )(({ handleSubmit, isSuccess }) => (

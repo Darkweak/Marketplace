@@ -48,7 +48,6 @@ class RequestResetPassword
                     ]
                 );
 
-                $this->manager->persist($user);
                 $this->manager->flush();
             }
         } catch (\Exception $e) {}

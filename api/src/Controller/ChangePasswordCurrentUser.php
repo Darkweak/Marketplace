@@ -50,7 +50,6 @@ class ChangePasswordCurrentUser
             $newPassword = $content->newpassword;
 
             $user->setPassword($this->userPasswordEncoder->encodePassword($user, $newPassword));
-            $this->manager->persist($user);
             $this->manager->flush();
 
             return new JsonResponse();

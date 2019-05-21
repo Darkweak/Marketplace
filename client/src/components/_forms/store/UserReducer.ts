@@ -23,6 +23,8 @@ export interface UserReducerProps {
     isSuccess: boolean;
     accountCreated: boolean;
     user: any;
+    isActivationSuccess: boolean,
+    isActivationError: boolean
 }
 
 const initialState: UserReducerProps = {
@@ -35,7 +37,9 @@ const initialState: UserReducerProps = {
     isError: false,
     isRegisterSuccess: false,
     isSuccess: false,
-    user: null
+    user: null,
+    isActivationSuccess: false,
+    isActivationError: false
 };
 export const UserReducer: Reducer = (state: UserReducerProps = initialState, action: any) => {
     const {payload, type} = action;
@@ -159,6 +163,24 @@ export const UserReducer: Reducer = (state: UserReducerProps = initialState, act
                 user: null,
                 isError: false,
                 isSuccess: true
+            };
+        case user.USER_ACTIVATE_FAILED:
+            return {
+                ...state,
+                isActivationError: true,
+                isActivationSuccess: false,
+            };
+        case user.USER_ACTIVATE_REQUEST:
+            return {
+                ...state,
+                isActivationError: false,
+                isActivationSuccess: false,
+            };
+        case user.USER_ACTIVATE_SUCCESS:
+            return {
+                ...state,
+                isActivationError: false,
+                isActivationSuccess: true,
             };
         default:
             return state;

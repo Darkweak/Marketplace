@@ -11,9 +11,11 @@ interface BaseAlertProps {
 }
 
 const BaseAlert = ({children, ...rest}: BaseAlertProps) => (
-    <Message className="text-center w-100" {...rest}>
-        {children}
-    </Message>
+    <div className="d-flex">
+        <Message className="text-center m-auto" {...rest}>
+            {children}
+        </Message>
+    </div>
 );
 
 export const Warning = ({children}: ChildrenInterface) => (

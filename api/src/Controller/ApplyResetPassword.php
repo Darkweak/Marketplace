@@ -46,7 +46,6 @@ class ApplyResetPassword
                 $user->setPassword($this->userPasswordEncoder->encodePassword($user, $password));
                 $user->setToken(null);
 
-                $this->manager->persist($user);
                 $this->manager->flush();
             }
         } catch (\Exception $e) {}

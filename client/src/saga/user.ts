@@ -11,7 +11,7 @@ import {
     USER_APPLY_RESET_PASSWORD_SUCCESS,
     USER_FAILED,
     USER_REQUEST,
-    USER_SUCCESS
+    USER_SUCCESS, USER_ACTIVATE_REQUEST, USER_ACTIVATE_FAILED, USER_ACTIVATE_SUCCESS
 } from '../components/_forms/store/user';
 import { commonRequest } from './common';
 
@@ -57,6 +57,16 @@ function* handleUser(action: any) {
                 path: `/reset-password/apply`,
                 method: 'POST'
             });
+        case USER_ACTIVATE_REQUEST:
+            return yield commonRequest({
+                body: payload,
+                callback: {
+                    error: USER_ACTIVATE_FAILED,
+                    success: USER_ACTIVATE_SUCCESS
+                },
+                path: `/activate`,
+                method: 'POST'
+            });
         default:
             break;
     }
@@ -67,4 +77,5 @@ export default function* watchUserActions() {
     yield all([ takeEvery(USER_CHANGE_PASSWORD_REQUEST, handleUser) ]);
     yield all([ takeEvery(USER_RESET_PASSWORD_REQUEST, handleUser) ]);
     yield all([ takeEvery(USER_APPLY_RESET_PASSWORD_REQUEST, handleUser) ]);
+    yield all([ takeEvery(USER_ACTIVATE_REQUEST, handleUser) ]);
 }
