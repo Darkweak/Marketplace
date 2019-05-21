@@ -34,6 +34,7 @@ services:
       - MARKETPLACE_NAME=${MARKETPLACE_NAME}
       - NOTIFICATION_EMAIL=${NOTIFICATION_EMAIL}
       - NOTIFICATION_EMAIL_PASS=${NOTIFICATION_EMAIL_PASS}
+      - MAILER_URL=gmail://${NOTIFICATION_EMAIL}:${NOTIFICATION_EMAIL_PASS}@localhost
     volumes:
       - ./api:/srv/api:rw,cached
     <<: *network

@@ -20,7 +20,7 @@ class Mailer
     {
         $message = (new \Swift_Message($title))
             ->setFrom(getenv('NOTIFICATION_EMAIL'))
-            ->setReplyTo(getenv('NOTIFICATION_EMAIL_PASS'))
+            ->setReplyTo(getenv('NOTIFICATION_EMAIL'))
             ->setTo($user->getEmail())
             ->setBody(
                 $this->environment->render(
