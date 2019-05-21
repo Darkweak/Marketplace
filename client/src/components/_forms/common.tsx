@@ -41,14 +41,7 @@ export const generateFields: any = (fields: Field[], isLoading: boolean) => (
     ))
 );
 
-interface FormProps {
-    additionnalLinks?: Link[];
-    fields: Field[];
-    isLoading?: boolean;
-    onSubmit: any;
-}
-
-export const GenerateForm: React.FunctionComponent<FormProps> = connect<any, any>(
+export const GenerateForm = connect<any, any>(
     mapStateToProps,
     {}
 )(({
