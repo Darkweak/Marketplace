@@ -19,7 +19,7 @@ interface ProductProps {
     addToCart?: (args: any) => void;
 }
 
-export const Item: React.FunctionComponent<ProductProps> = connect(
+export const Item: any = connect(
     mapStateToProps,
     dispatch => ({
         addToCart: (...args: any) => dispatch(addToCart(args))
