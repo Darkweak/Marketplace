@@ -41,7 +41,7 @@ export const generateFields: any = (fields: Field[], isLoading: boolean) => (
     ))
 );
 
-export const GenerateForm = connect<any, any>(
+export const GenerateForm: any = connect<any, any>(
     mapStateToProps,
     {}
 )(({
