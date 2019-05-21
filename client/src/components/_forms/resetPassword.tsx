@@ -20,7 +20,7 @@ const link: Link = {
     path: '/login'
 };
 
-export const RequestResetPasswordForm: React.FunctionComponent = connect(
+export const RequestResetPasswordForm: any = connect(
     mapStateToProps,
     dispatch => ({
         handleSubmit: (event: any) => {
@@ -43,7 +43,7 @@ export const RequestResetPasswordForm: React.FunctionComponent = connect(
     </GenerateForm>
 ));
 
-export const ApplyResetPasswordForm: React.FunctionComponent = connect(
+export const ApplyResetPasswordForm: any = connect(
     mapStateToProps,
     dispatch => ({
         handleSubmit: (event: any) => {
