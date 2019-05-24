@@ -110,7 +110,7 @@ services:
     expose:
       - 3000
     labels:
-      - traefik.frontend.rule=Host:${DOMAIN_NAME},www.${DOMAIN_NAME}
+      - traefik.frontend.rule=Host:dev.${DOMAIN_NAME}
       - traefik.port=3000
     <<: *network
 
@@ -129,6 +129,22 @@ services:
       - 3000
     labels:
       - traefik.frontend.rule=Host:admin.${DOMAIN_NAME}
+      - traefik.port=3000
+    <<: *network
+
+  ssr:
+    build:
+      context: ./client
+      dockerfile: Dockerfile-ssr
+    volumes:
+      - ./client:/app:rw,cached
+      - ./client/nodes_modules:/app/nodes_modules:rw,cached
+    env_file:
+      - ./client/.env
+    expose:
+      - 3000
+    labels:
+      - traefik.frontend.rule=Host:${DOMAIN_NAME},www.${DOMAIN_NAME}
       - traefik.port=3000
     <<: *network
 
