@@ -15,9 +15,9 @@ import { routes } from './routes';
 import './css/bootstrap.min.css';
 import './css/override.css';
 
-const sagaMiddleware = createSagaMiddleware();
-const history = createBrowserHistory();
-const store = createStore(
+export const sagaMiddleware = createSagaMiddleware();
+export const history = createBrowserHistory();
+export const store = createStore(
     combineReducers({
         router: connectRouter(history),
         ...reducers
