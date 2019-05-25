@@ -1,5 +1,14 @@
 version: '3.4'
 
+x-client-ssr-env:
+  &client-ssr-env
+  environment:
+    - REACT_APP_API_ENTRYPOINT=${HTTP_OR_SSL}api.${DOMAIN_NAME}
+    - REACT_APP_MARKETPLACE_EMAIL=${REACT_APP_MARKETPLACE_EMAIL}
+    - REACT_APP_MARKETPLACE_LOCATION=${REACT_APP_MARKETPLACE_LOCATION}
+    - REACT_APP_MARKETPLACE_NAME=${MARKETPLACE_NAME}
+    - REACT_APP_MARKETPLACE_PHONE=${REACT_APP_MARKETPLACE_PHONE}
+
 x-cache:
   &cache
   cache_from:
@@ -98,12 +107,6 @@ services:
       context: ./client
       cache_from:
         - ${CONTAINER_REGISTRY_BASE}/client
-    environment:
-      - REACT_APP_API_ENTRYPOINT=${HTTP_OR_SSL}api.${DOMAIN_NAME}
-      - REACT_APP_MARKETPLACE_EMAIL=${REACT_APP_MARKETPLACE_EMAIL}
-      - REACT_APP_MARKETPLACE_LOCATION=${REACT_APP_MARKETPLACE_LOCATION}
-      - REACT_APP_MARKETPLACE_NAME=${MARKETPLACE_NAME}
-      - REACT_APP_MARKETPLACE_PHONE=${REACT_APP_MARKETPLACE_PHONE}
     volumes:
       - ./client:/usr/src/client:rw,cached
       - /usr/src/client/node_modules
@@ -112,6 +115,7 @@ services:
     labels:
       - traefik.frontend.rule=Host:dev.${DOMAIN_NAME}
       - traefik.port=3000
+    <<: *client-ssr-env
     <<: *network
 
   admin:
@@ -146,6 +150,7 @@ services:
     labels:
       - traefik.frontend.rule=Host:${DOMAIN_NAME},www.${DOMAIN_NAME}
       - traefik.port=3000
+    <<: *client-ssr-env
     <<: *network
 
 volumes:

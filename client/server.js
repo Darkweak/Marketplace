@@ -1,64 +1,67 @@
-let Express = require('express');
 import React from 'react';
+import express from 'express';
+import { renderRoutes } from 'react-router-config';
 import { Provider } from 'react-redux';
-import { renderToString } from 'react-dom/server';
 import { history, sagaMiddleware, store } from './src/index.tsx';
-import { ConnectedRouter } from 'connected-react-router';
 import { Route, Switch } from 'react-router';
+import { StaticRouter } from 'react-router-dom';
 import { routes } from './src/routes';
 import { sagas } from './src/saga/index';
 
-const app = Express(); // eslint-disable-line new-cap
+const app = express();
 const port = 3001;
 
-// Serve static files
-app.use('/static', Express.static('static'));
-
-// This is fired every time the server side receives a request
-app.use(handleRender);
+app.use('./build');
 
 sagas.map(s => sagaMiddleware.run(s));
 
-// We are going to fill these out in the sections to follow
-function handleRender(req, res) {
-    const html = renderToString(
-        <Provider store={store}>
-            <ConnectedRouter history={history}>
-                <Switch>
-                    {
-                        routes.map((route, index) => <Route key={index} path={route.url} component={route.component}/>)
-                    }
-                </Switch>
-            </ConnectedRouter>
-        </Provider>
-    );
+app.get('/*', (req, res) => {
+  const app = ReactDOMServer.renderToString(
+    <Provider store={store}>
+      <StaticRouter history={history}>
+        <Switch>
+          {
+            renderRoutes(
+              routes.map(
+                (route, index) => <Route key={index} path={route.url} component={route.component}/>
+              )
+            )
+          }
+        </Switch>
+      </StaticRouter>
+    </Provider>
+  );
 
-    // Grab the initial state from our Redux store
-    const finalState = store.getState();
+  const indexFile = path.resolve('./build/index.html');
+  fs.readFile(indexFile, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Something went wrong:', err);
+      return res.status(500).send('Oops, better luck next time!');
+    }
 
-    // Send the rendered page back to the client
-    res.send(renderFullPage(html, finalState));
-}
+    return res.send(renderFullPage(app, store.getState()));
+  });
+});
 
-function renderFullPage(html, preloadedState) {
-    return `
+const renderFullPage = (html, preloadedState) => (
+  `
       <!doctype html>
       <html>
-      <head>
-          <title>Bienvenue sur ${ process.env.REACT_APP_MARKETPLACE_NAME }</title>
-      </head>
-      
-      <body>
-          <div id="app">${html}</div>
-          <script>
-          window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
-          </script>
-          <script src="/static/bundle.js"></script>
-      </body>
+        <head>
+            <title>Bienvenue sur ${ process.env.REACT_APP_MARKETPLACE_NAME }</title>
+        </head>
+        
+        <body>
+            <div id="app">${html}</div>
+            <script>
+            window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
+            </script>
+            <script src="/static/bundle.js"></script>
+        </body>
       </html>
-  `;
-}
+  `
+);
 
 app.listen(port, () => {
-    console.log(`SSR server started at http://localhost:${port}`); // eslint-disable-line no-console
+    console.log(`😎 Profitez bien ! 😎`);
 });
