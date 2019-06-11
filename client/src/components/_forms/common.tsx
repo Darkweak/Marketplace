@@ -3,8 +3,14 @@ import { Button, Form, Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Field } from '../Objects/Field';
 import { Link } from '../Objects/Link';
+import { CommonReducerProps } from './store/commonReducer';
 
-const mapStateToProps = ({CommonReducer: {isLoading}}: any) => ({isLoading});
+interface Reducers {
+    CommonReducer: CommonReducerProps;
+}
+const mapStateToProps = (reducers: Reducers) => ({
+    isLoading: reducers.CommonReducer.isLoading
+});
 
 export const formatFormDatas = (elements: any) => [].reduce.call(elements, (data: any, element: any) => {
     if ('' !== element.value) {
@@ -41,7 +47,7 @@ export const generateFields: any = (fields: Field[], isLoading: boolean) => (
     ))
 );
 
-export const GenerateForm: any = connect<any, any>(
+export const GenerateForm: any = connect(
     mapStateToProps,
     {}
 )(({
@@ -51,7 +57,10 @@ export const GenerateForm: any = connect<any, any>(
        isLoading,
        onSubmit,
        withoutText
-   }) => <Form onSubmit={onSubmit}>
+   }: any) => <Form onSubmit={(event: any) => {
+            event.preventDefault();
+            onSubmit(formatFormDatas(event.target.elements))
+        }}>
         {children}
         {
             generateFields(fields, isLoading)

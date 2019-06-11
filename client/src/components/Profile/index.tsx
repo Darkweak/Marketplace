@@ -30,9 +30,9 @@ const BorderInfos = ({ children, title }: any) => (
 export const Profile = compose(
     connect(
         mapStateToProps,
-        dispatch => ({
-            getUser: () => dispatch(getUser()),
-        })
+        {
+            getUser
+        }
     ),
     lifecycle({
         componentDidMount() {

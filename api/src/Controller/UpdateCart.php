@@ -30,7 +30,7 @@ class UpdateCart
     public function __invoke(Request $request)
     {
         try {
-            $content = \json_decode($request->getContent())[0];
+            $content = \json_decode($request->getContent());
             $product = $content->name;
             $type = $content->type;
             $category = $content->category->name;

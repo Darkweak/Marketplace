@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { formatFormDatas, GenerateForm } from './common';
+import { GenerateForm } from './common';
 import { Link } from '../Objects/Link';
 import { connect } from 'react-redux';
 import { UserReducerProps } from './store/UserReducer';
@@ -28,17 +28,14 @@ const link2: Link = {
 
 export const LoginForm = connect(
     mapStateToProps,
-    dispatch => ({
-        handleSubmit: (event: any) => {
-            event.preventDefault();
-            dispatch(login(formatFormDatas(event.target.elements)))
-        }
-    })
-)(({ handleSubmit, isLoginError, ...rest }: any) => (
+    {
+        login
+    }
+)(({ isLoginError, login, ...rest }: any) => (
     <GenerateForm
         additionnalLinks={[ link, link2 ]}
         fields={[ username, password ]}
-        onSubmit={handleSubmit}
+        onSubmit={login}
         {...rest}
     >
         {

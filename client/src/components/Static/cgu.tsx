@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Layout } from '../Common/Layout';
 
 const items = [
@@ -6,7 +6,7 @@ const items = [
         title: 'Objet',
         description:
             `Les présentes conditions de vente visent à définir les relations contractuelles entre ${ process.env.REACT_APP_MARKETPACE_NAME } 
-            et l’acheteur et les conditions applicables à tout achat effectué par le biais du site internet ${process.env.REACT_APP_MARKETPLACE_NAME}. 
+            et l’acheteur et les conditions applicables à tout achat effectué par le biais du site internet ${ process.env.REACT_APP_MARKETPLACE_NAME }. 
             L’acquisition d’un produit à travers le présent site implique une acceptation sans réserve par l’acheteur des présentes conditions 
             de vente dont l’acheteur reconnaît avoir pris connaissance préalablement à sa commande. Avant toute transaction, l’acheteur déclare 
             d’une part que l’achat de produits sur le site ${ process.env.REACT_APP_MARKETPLACE_NAME } est sans rapport direct avec son activité 

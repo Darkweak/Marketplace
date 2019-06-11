@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { formatFormDatas, GenerateForm } from './common';
+import { GenerateForm } from './common';
 import { connect } from 'react-redux';
 import { UserReducerProps } from './store/UserReducer';
 import { Success } from '../Common/Alert';
@@ -22,17 +22,14 @@ const link: Link = {
 
 export const RequestResetPasswordForm: any = connect(
     mapStateToProps,
-    dispatch => ({
-        handleSubmit: (event: any) => {
-            event.preventDefault();
-            dispatch(resetPassword(formatFormDatas(event.target.elements)))
-        }
-    })
-)(({ handleSubmit, isSuccess }) => (
+    {
+        resetPassword
+    }
+)(({ isSuccess, resetPassword }) => (
     <GenerateForm
         additionnalLinks={[link]}
         fields={[ username ]}
-        onSubmit={handleSubmit}
+        onSubmit={resetPassword}
     >
         {
             isSuccess &&
@@ -45,16 +42,13 @@ export const RequestResetPasswordForm: any = connect(
 
 export const ApplyResetPasswordForm: any = connect(
     mapStateToProps,
-    dispatch => ({
-        handleSubmit: (event: any) => {
-            event.preventDefault();
-            dispatch(applyResetPassword(formatFormDatas(event.target.elements), {token: window.location.pathname.split('/')[2]}))
-        }
-    })
-)(({ handleSubmit, isSuccess }) => (
+    {
+        applyResetPassword
+    }
+)(({ applyResetPassword, isSuccess }) => (
     <GenerateForm
         fields={[ newpassword ]}
-        onSubmit={handleSubmit}
+        onSubmit={applyResetPassword}
     >
         {
             isSuccess &&

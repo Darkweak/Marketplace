@@ -16,14 +16,14 @@ const mapStateToProps = ( reducers: Reducers ) => ({
 interface ProductProps {
     isLogged?: boolean,
     product: Product,
-    addToCart?: (args: any) => void;
+    addToCart: (args: any) => void;
 }
 
 export const Item: any = connect(
     mapStateToProps,
-    dispatch => ({
-        addToCart: (...args: any) => dispatch(addToCart(args))
-    })
+    {
+        addToCart
+    }
 )(({ isLogged, product, addToCart }: ProductProps) => (
     <div className="card h-100 shadow">
         <div className={`position-relative d-flex${product.promotion && ' promoted-product'}`}>
@@ -46,7 +46,7 @@ export const Item: any = connect(
             <h5 className="card-title text-center">{product.name}</h5>
             <p className="card-text description-clamped">{product.description}</p>
             <div className="text-center">
-                <Button onClick={() => isLogged ? undefined !== addToCart && addToCart({...product, quantity: 1, type: 'add'}) : window.location.pathname = '/connection' }>
+                <Button onClick={() => isLogged ? addToCart({...product, quantity: 1, type: 'add'}) : window.location.pathname = '/connection' }>
                     <i className="fas fa-cart-arrow-down"/> Ajouter au panier
                 </Button>
             </div>

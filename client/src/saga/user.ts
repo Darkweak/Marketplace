@@ -1,4 +1,3 @@
-import { all, takeEvery } from 'redux-saga/effects';
 import {
     USER_CHANGE_PASSWORD_FAILED,
     USER_CHANGE_PASSWORD_REQUEST,
@@ -15,55 +14,60 @@ import {
 } from '../components/_forms/store/user';
 import { commonRequest } from './common';
 
-function* handleUser(action: any) {
-    const {payload, type} = action;
+export const handleUser = (action: any) => {
+    const {dispatch, payload, type} = action;
     switch (type) {
         case USER_REQUEST:
-            return yield commonRequest({
+            return commonRequest({
                 callback: {
                     error: USER_FAILED,
                     success: USER_SUCCESS
                 },
+                dispatch,
                 path: `/me`,
                 method: 'GET'
             });
         case USER_CHANGE_PASSWORD_REQUEST:
-            return yield commonRequest({
+            return commonRequest({
                 body: payload,
                 callback: {
                     error: USER_CHANGE_PASSWORD_FAILED,
                     success: USER_CHANGE_PASSWORD_SUCCESS
                 },
+                dispatch,
                 path: `/change-password`,
                 method: 'POST'
             });
         case USER_RESET_PASSWORD_REQUEST:
-            return yield commonRequest({
+            return commonRequest({
                 body: payload,
                 callback: {
                     error: USER_RESET_PASSWORD_FAILED,
                     success: USER_RESET_PASSWORD_SUCCESS
                 },
+                dispatch,
                 path: `/reset-password/request`,
                 method: 'POST'
             });
         case USER_APPLY_RESET_PASSWORD_REQUEST:
-            return yield commonRequest({
+            return commonRequest({
                 body: payload,
                 callback: {
                     error: USER_APPLY_RESET_PASSWORD_FAILED,
                     success: USER_APPLY_RESET_PASSWORD_SUCCESS
                 },
+                dispatch,
                 path: `/reset-password/apply`,
                 method: 'POST'
             });
         case USER_ACTIVATE_REQUEST:
-            return yield commonRequest({
+            return commonRequest({
                 body: payload,
                 callback: {
                     error: USER_ACTIVATE_FAILED,
                     success: USER_ACTIVATE_SUCCESS
                 },
+                dispatch,
                 path: `/activate`,
                 method: 'POST'
             });
@@ -72,10 +76,3 @@ function* handleUser(action: any) {
     }
 }
 
-export default function* watchUserActions() {
-    yield all([ takeEvery(USER_REQUEST, handleUser) ]);
-    yield all([ takeEvery(USER_CHANGE_PASSWORD_REQUEST, handleUser) ]);
-    yield all([ takeEvery(USER_RESET_PASSWORD_REQUEST, handleUser) ]);
-    yield all([ takeEvery(USER_APPLY_RESET_PASSWORD_REQUEST, handleUser) ]);
-    yield all([ takeEvery(USER_ACTIVATE_REQUEST, handleUser) ]);
-}

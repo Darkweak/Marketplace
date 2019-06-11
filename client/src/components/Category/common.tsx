@@ -17,20 +17,23 @@ export const mapStateToProps = (reducers: Reducers) => ({
     isFetching: reducers.ProductReducer.isFetching,
     products: reducers.ProductReducer.products,
 });
-export const mapDispatchToProps = (dispatch: Function) => ({
-    getProduct: (args?: string) => dispatch(getProduct(args)),
+export const mapDispatchToProps = ({
+    getProduct
 });
 
 export const generateArticles = (products: Product[] = [], max: number = products.length) => {
     let items: any[] = [];
 
-    for (let i = 0; i < max && ( products.length >= max ) ; i++) {
-        items.push(
-            <div key={i} className="col-sm-12 col-md-4 mb-3">
-                <Item product={products[i]}/>
-            </div>
-        )
+    if (products && products.length) {
+        for (let i = 0; i < max && ( products.length >= max ) ; i++) {
+            items.push(
+                <div key={i} className="col-sm-12 col-md-4 mb-3">
+                    <Item product={products[i]}/>
+                </div>
+            )
+        }
     }
+
     return items;
 };
 
@@ -45,7 +48,7 @@ export const CommonCategory = connect(
             </h1>
             <div className="row m-0 py-2">
                 {
-                    (!isError && isFetching) && (
+                    (!isError && isFetching) ? (
                         <div className="col-md-8 offset-md-2">
                             <Info>
                                 <span>
@@ -53,10 +56,7 @@ export const CommonCategory = connect(
                                 </span>
                             </Info>
                         </div>
-                    )
-                }
-                {
-                    (!products.length && !isFetching) && (
+                    ) : ((!products || !products.length) && !isFetching) ? (
                         <div className="col-md-8 offset-md-2">
                             <Warning>
                                 <span>
@@ -64,9 +64,8 @@ export const CommonCategory = connect(
                                 </span>
                             </Warning>
                         </div>
-                    )
+                    ) : generateArticles(products)
                 }
-                {generateArticles(products)}
             </div>
         </TextContainer>
     </Layout>

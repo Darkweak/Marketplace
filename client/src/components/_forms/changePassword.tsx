@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { formatFormDatas, GenerateForm } from './common';
+import { GenerateForm } from './common';
 import { connect } from 'react-redux';
 import { UserReducerProps } from './store/UserReducer';
 import { Warning } from '../Common/Alert';
@@ -16,16 +16,13 @@ export const mapStateToProps = (reducers: Reducers) => ({
 
 export const ChangePasswordForm = connect(
     mapStateToProps,
-    dispatch => ({
-        handleSubmit: (event: any) => {
-            event.preventDefault();
-            dispatch(changePassword(formatFormDatas(event.target.elements)))
-        }
-    })
-)(({ handleSubmit, isError }) => (
+    {
+        changePassword
+    }
+)(({ changePassword, isError }) => (
     <GenerateForm
         fields={[ oldpassword, newpassword ]}
-        onSubmit={handleSubmit}
+        onSubmit={changePassword}
     >
         {
             isError &&

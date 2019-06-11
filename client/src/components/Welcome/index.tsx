@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { Layout } from "../Common/Layout";
 import { TextContainer } from "../Common/ObliqueContainer";
-import { compose, lifecycle } from "recompose";
+import { compose, lifecycle, setStatic } from 'recompose';
 import { connect } from "react-redux";
 import { ProductReducerProps } from "../Item/store/productReducer";
 import { CategoryReducerProps } from "../Item/store/categoryReducer";
 import { Category } from "../Objects/Category";
-import { generateArticles, mapDispatchToProps } from "../Category/common";
+import { generateArticles, mapDispatchToProps } from '../Category/common';
 import { AutoplayInfinite } from '../Rating';
+import { getProduct } from '../Item/store/product';
 
 interface Reducers {
     CategoryReducer: CategoryReducerProps,
@@ -37,16 +38,19 @@ export const Welcome = compose(
         mapStateToProps,
         mapDispatchToProps
     ),
+    setStatic(
+        'fetching', ({ dispatch }: any) => [dispatch(getProduct('promotion=true'))]
+    ),
     lifecycle({
         componentDidMount(){
-            let { getProduct }: any = this.props;
-            getProduct('promotion=true');
+            const { getProduct }: any = this.props;
+            getProduct('');
         }
     })
 )(({ categories, products }: any) => (
   <Layout noPadding fixed>
       <video autoPlay muted loop className="w-100 vh-100 background-video bg-black-30 img-fluid w-100 img-fit">
-          <source src="/background.mp4"/>
+          <source src="https://i.imgur.com/Ao2i4Wj.mp4"/>
       </video>
     <TextContainer divider>
       <h1 className="text-center">

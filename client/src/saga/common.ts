@@ -1,52 +1,46 @@
-import { put } from 'redux-saga/effects';
 import { getToken } from '../helpers';
+import axios from 'axios';
 
 interface CommonRequestProps {
     body?: any;
     callback?: any;
+    dispatch: any;
     isForm?: boolean;
     method: string;
     path: string;
 }
 
-export function* commonRequest({
+export async function commonRequest({
                                    body = null,
                                    callback,
+                                   dispatch,
                                    isForm,
                                    method = 'GET',
                                    path
                                }: CommonRequestProps) {
     try {
-        const headers = new Headers();
-        headers.append('Accept', 'application/ld+json');
-        headers.append('Content-Type', 'application/ld+json');
+        let headers: any = {
+            Accept: 'application/ld+json',
+            'Content-Type': 'application/ld+json'
+        };
         if (getToken()) {
-            headers.append('Authorization', `Bearer ${getToken()}`);
+            headers.Authorization = `Bearer ${getToken()}`;
         }
-        const request = new Request(
-            `${process.env.REACT_APP_API_ENTRYPOINT}${path}`,
-            {
-                method,
-                headers,
-                body: body && JSON.stringify(body)
-            }
-        );
-        const response = yield fetch(request).then((response) => {
-            if (response.status < 200 || response.status >= 300) {
-                throw new Error(response.statusText);
-            }
-            return response.json();
+        const request: any = ({
+            url: `${ process.env.REACT_APP_API_ENTRYPOINT }${ path }`,
+            method,
+            headers: headers,
+            data: body && JSON.stringify(body)
         });
-        if (callback) {
-            yield put({
-                type: callback.success,
-                payload: response[ 'hydra:member' ] ? response[ 'hydra:member' ] : response,
-                isList: !!response[ 'hydra:member' ]
-            });
-        }
+        const res = await axios.request(request);
+        dispatch({
+            type: callback.success,
+            payload: res.data[ 'hydra:member' ] ? res.data[ 'hydra:member' ] : res.data,
+            isList: !!res.data[ 'hydra:member' ]
+        });
     } catch (e) {
         if (callback) {
-            yield put({
+            dispatch({
                 type: callback.error
             });
         }

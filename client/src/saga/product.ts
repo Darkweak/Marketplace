@@ -1,4 +1,3 @@
-import { all, takeEvery } from 'redux-saga/effects';
 import {
     PRODUCT_FETCH_FAILED,
     PRODUCT_FETCH_REQUEST,
@@ -6,23 +5,20 @@ import {
 } from '../components/Item/store/product';
 import { commonRequest } from './common';
 
-function* handleProduct(action: any) {
-  const {payload, type} = action;
+export const handleProduct = (action: any) => {
+  const {dispatch, payload, type} = action;
   switch (type) {
     case PRODUCT_FETCH_REQUEST:
-      return yield commonRequest({
+      return commonRequest({
         callback: {
           error: PRODUCT_FETCH_FAILED,
           success: PRODUCT_FETCH_SUCCESS
         },
+        dispatch,
         path: `/products?${payload}`,
         method: 'GET'
       });
     default:
       break;
   }
-}
-
-export default function* watchProductActions() {
-  yield all([takeEvery(PRODUCT_FETCH_REQUEST, handleProduct)]);
-}
+};

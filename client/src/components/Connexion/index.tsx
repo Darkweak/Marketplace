@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Layout } from '../Common/Layout';
 import { Login } from '../Login';
 import { Register } from '../Register';

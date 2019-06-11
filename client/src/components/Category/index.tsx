@@ -1,12 +1,16 @@
 import * as React from 'react';
-import { compose, lifecycle } from "recompose";
+import { compose, lifecycle, setStatic } from 'recompose';
 import { connect } from "react-redux";
 import { CommonCategory, mapDispatchToProps, mapStateToProps } from "./common";
+import { getProduct } from '../Item/store/product';
 
 export const Category = compose(
     connect(
         mapStateToProps,
         mapDispatchToProps
+    ),
+    setStatic(
+        'fetching', ({ dispatch, path }: any) => [dispatch(getProduct(path.includes('/products') ? `category.name=${path.substr(12)}` : ''))]
     ),
     lifecycle({
         componentDidMount(){

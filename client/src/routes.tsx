@@ -15,65 +15,63 @@ import { Activate } from './components/Activate';
 
 const ROLE_USER = 'ROLE_USER';
 
-const is_granted = (component: any) => {
-    if (getRoles() && getRoles().includes(ROLE_USER)) {
-        return component
+const is_granted = () => {
+    if (!getRoles() || !getRoles().includes(ROLE_USER)) {
+        typeof window !== 'undefined' && (window.location.pathname = '/');
     }
-
-    window.location.pathname = '/';
 };
 
 export const routes = [
     {
         component: Connection,
-        url: '/connection'
+        path: '/connection'
     },
     {
         component: About,
-        url: '/about'
+        path: '/about'
     },
     {
         component: Activate,
-        url: '/activate/:token'
+        path: '/activate/:token'
     },
     {
-        component: () => is_granted(<Cart/>),
-        url: '/cart'
+        component: () => { is_granted(); return <Cart/> },
+        path: '/cart'
     },
     {
         component: CGU,
-        url: '/cgu'
+        path: '/cgu'
     },
     {
-        component: () => is_granted(<ChangePassword/>),
-        url: '/change-password'
+        component: () => { is_granted(); return <ChangePassword/> },
+        path: '/change-password'
     },
     {
         component: ResetPassword,
-        url: '/reset-password/:token?'
+        path: '/reset-password/:token?'
     },
     {
-        component: () => is_granted(<Profile/>),
-        url: '/profile'
-    },
-    {
-        component: Category,
-        url: '/products'
+        component: () => { is_granted(); return <Profile/> },
+        path: '/profile'
     },
     {
         component: Category,
-        url: '/categories/:name'
+        path: '/products'
+    },
+    {
+        component: Category,
+        path: '/categories/:name'
     },
     {
         component: Discount,
-        url: '/discount'
+        path: '/discount'
     },
     {
         component: Register,
-        url: '/register'
+        path: '/register'
     },
     {
         component: Welcome,
-        url: '/'
+        path: '/'
     },
 ];

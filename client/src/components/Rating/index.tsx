@@ -1,14 +1,14 @@
 import React from 'react';
 import { Card, Feed, Rating } from 'semantic-ui-react';
-import '../Rating/rating.scss';
+import './rating.scss';
 
 const sentences = [
     `Le service est vraiment au top`,
-    `Je recommande vivement ${process.env.REACT_APP_MARKETPLACE_NAME} pour leur professionalisme et leur réactivité`,
+    `Je recommande vivement ${ process.env.REACT_APP_MARKETPLACE_NAME } pour leur professionalisme et leur réactivité`,
     `Commande livrée 2 jours après le paiement, super !`,
     `Je n'ai jamais commandé mais leur magasin est très bien fourni`,
     `Un seul mot, j'adore`,
-]
+];
 
 interface RatingProps {
     nbStars?: number;

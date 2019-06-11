@@ -17,9 +17,9 @@ const mapStateToProps = ( reducers: Reducers ) => ({
 export const Activate = compose(
     connect(
         mapStateToProps,
-        dispatch => ({
-            activateUser: (args: any) => dispatch(activateUser(args))
-        })
+        {
+            activateUser
+        }
     ),
     lifecycle({
         componentDidMount() {

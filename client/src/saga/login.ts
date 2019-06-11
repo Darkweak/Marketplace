@@ -1,4 +1,3 @@
-import { all, takeEvery } from 'redux-saga/effects';
 import {
   LOGIN_FAILED,
   LOGIN_REQUEST,
@@ -6,24 +5,21 @@ import {
 } from '../components/_forms/store/login';
 import { commonRequest } from './common';
 
-function* handleLogin(action: any) {
-  const {type, payload} = action;
+export function handleLogin(action: any) {
+  const {dispatch, type, payload} = action;
   switch (type) {
     case LOGIN_REQUEST:
-      return yield commonRequest({
+      return commonRequest({
         body: payload,
         callback: {
           error: LOGIN_FAILED,
           success: LOGIN_SUCCESS
         },
+        dispatch,
         path: `/login`,
         method: 'POST'
       });
     default:
       break;
   }
-}
-
-export default function* watchLoginActions() {
-  yield all([takeEvery(LOGIN_REQUEST, handleLogin)]);
 }

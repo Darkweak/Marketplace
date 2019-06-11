@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { formatFormDatas, GenerateForm } from './common';
+import { GenerateForm } from './common';
 import { register } from './store/register';
 import { connect } from 'react-redux';
 import { mapStateToProps } from './login';
@@ -8,16 +8,13 @@ import { Danger } from '../Common/Alert';
 
 export const RegisterForm = connect(
     mapStateToProps,
-    dispatch => ({
-        handleSubmit: (event: any) => {
-            event.preventDefault();
-            dispatch(register(formatFormDatas(event.target.elements)));
-        }
-    })
-)(({ handleSubmit, isRegisterError, ...rest }: any) => (
+    {
+        register
+    }
+)(({ isRegisterError, register, ...rest }: any) => (
   <GenerateForm
       fields={[email, pseudo, password]}
-      onSubmit={handleSubmit}
+      onSubmit={register}
       {...rest}
   >
       {

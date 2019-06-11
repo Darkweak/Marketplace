@@ -3,10 +3,13 @@ import * as register from './register';
 import * as user from './user';
 import { Reducer } from 'redux';
 
-const initialState = {
+export interface CommonReducerProps {
+    isLoading: boolean;
+}
+
+const initialState: CommonReducerProps = {
     isLoading: false
 };
-
 export const CommonReducer: Reducer = (state = initialState, action: any) => {
     switch (action.type) {
         case login.LOGIN_REQUEST:

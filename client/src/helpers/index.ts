@@ -7,16 +7,16 @@ const CATEGORIES = 'categories';
 const CACHE = 'cache';
 const TOKEN = 'token';
 const CACHE_TIME = 7;
-export const getToken: any = () => localStorage.getItem(TOKEN);
-export const setToken: any = (token: string) => localStorage.setItem(TOKEN, token);
-export const deleteToken: any = () => localStorage.removeItem(TOKEN);
+export const getToken: any = () => typeof window !== 'undefined' && (window.localStorage.getItem(TOKEN) || null);
+export const setToken: any = (token: string) => typeof window !== 'undefined' && window.localStorage.setItem(TOKEN, token);
+export const deleteToken: any = () => typeof window !== 'undefined' && window.localStorage.removeItem(TOKEN);
 export const getDecodedToken: any = () => getToken() && decode(getToken());
-export const getUsername: any = () => getDecodedToken() && getDecodedToken().username;
-export const getRoles: any = () => getDecodedToken() && getDecodedToken().roles;
+export const getUsername: any = () => getToken() && getDecodedToken().username;
+export const getRoles: any = () => getToken() && getDecodedToken().roles;
 
-export const getCart: any = () => JSON.parse(localStorage.getItem(CART) || '{"totalItems": 0, "totalPrice": 0.00}');
-export const setCart: any = (cart: any) => { localStorage.setItem(CART, JSON.stringify(cart)); return getCart(); };
-export const resetCart: any = () => setCart({totalItems: 0, totalPrice: 0.00});
+export const getCart: any = () => typeof window !== 'undefined' && JSON.parse(window.localStorage.getItem(CART) || '{"totalItems": 0, "totalPrice": 0.00}');
+export const setCart: any = (cart: any) => { typeof window !== 'undefined' && (window.localStorage.setItem(CART, JSON.stringify(cart))); return getCart(); };
+export const resetCart: any = () => typeof window !== 'undefined' && setCart({totalItems: 0, totalPrice: 0.00});
 export const setCartFromToken: any = (obj: string) => {
     const cart = JSON.parse(obj);
     let populatedCart = resetCart();
@@ -62,16 +62,15 @@ const generateNewProducttoCart = (product: Product, quantity: number) => ({
     price: product.promotion ? product.pricePromotion : product.price
 });
 
-export const getCategories = () => localStorage.getItem(CATEGORIES) ? JSON.parse(localStorage.getItem(CATEGORIES) || '') : null;
+export const getCategories = () => typeof window !== 'undefined' && JSON.parse(window.localStorage.getItem(CATEGORIES) || '[]');
 export const setCategories = (categories: Category[]) => {
-    localStorage.setItem(CATEGORIES, JSON.stringify(categories));
+    typeof window !== 'undefined' && window.localStorage.setItem(CATEGORIES, JSON.stringify(categories));
     setCache();
 };
-export const resetCategories = () => localStorage.removeItem(CATEGORIES);
 
-export const getCache = () => new Date(localStorage.getItem(CACHE) || '');
+export const getCache = () => typeof window !== 'undefined' && new Date(window.localStorage.getItem(CACHE) || '');
 export const setCache = () => {
     const date = new Date();
     date.setDate(date.getDate() + CACHE_TIME);
-    localStorage.setItem(CACHE, date.toString());
+    typeof window !== 'undefined' && window.localStorage.setItem(CACHE, date.toString());
 };
