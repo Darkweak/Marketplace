@@ -3,7 +3,7 @@ version: '3.4'
 x-client-ssr-env:
   &client-ssr-env
   environment:
-    - REACT_APP_API_ENTRYPOINT=${HTTP_OR_SSL}api.${DOMAIN_NAME}
+    - REACT_APP_API_ENTRYPOINT=${HTTP_OR_SSL}api-${DOMAIN_NAME}
     - REACT_APP_MARKETPLACE_EMAIL=${REACT_APP_MARKETPLACE_EMAIL}
     - REACT_APP_MARKETPLACE_LOCATION=${REACT_APP_MARKETPLACE_LOCATION}
     - REACT_APP_MARKETPLACE_NAME=${MARKETPLACE_NAME}
@@ -33,11 +33,11 @@ services:
     environment:
       - APP_ENV=${APP_ENV}
       - DOMAIN=${DOMAIN_NAME}
-      - TRUSTED_HOSTS=^(${SUBDOMAINS_LIST}\.)?${DOMAIN_NAME}$$
-      - CORS_ALLOW_ORIGIN=^${HTTP_OR_SSL}(${SUBDOMAINS_LIST}.)?${DOMAIN_NAME}$$
+      - TRUSTED_HOSTS=^(${SUBDOMAINS_LIST}(\.|-))?${DOMAIN_NAME}$$
+      - CORS_ALLOW_ORIGIN=^${HTTP_OR_SSL}(${SUBDOMAINS_LIST}(.|-))?${DOMAIN_NAME}$$
       - DATABASE_URL=postgres://${DB_USER}:${DB_PASS}@db/${DB_NAME}
-      - MERCURE_SUBSCRIBE_URL=${HTTP_OR_SSL}mercure.${DOMAIN_NAME}$$
-      - MERCURE_PUBLISH_URL=${HTTP_OR_SSL}mercure.${DOMAIN_NAME}$$
+      - MERCURE_SUBSCRIBE_URL=${HTTP_OR_SSL}mercure-${DOMAIN_NAME}$$
+      - MERCURE_PUBLISH_URL=${HTTP_OR_SSL}mercure-${DOMAIN_NAME}$$
       - MERCURE_JWT_SECRET=${JWT_KEY}
       - JWT_PASSPHRASE=${JWT_KEY}
       - BASE_URL=${HTTP_OR_SSL}${DOMAIN_NAME}
@@ -60,10 +60,10 @@ services:
     volumes:
       - ./api/public:/srv/api/public:ro
     labels:
-      - traefik.frontend.rule=Host:api.${DOMAIN_NAME}
+      - traefik.frontend.rule=Host:api-${DOMAIN_NAME}
     <<: *network
 
-  cache-proxy:
+  cache:
     image: ${CONTAINER_REGISTRY_BASE}/varnish
     build:
       context: ./api
@@ -76,7 +76,7 @@ services:
     tmpfs:
       - /usr/local/var/varnish:exec
     labels:
-      - traefik.frontend.rule=Host:cache.${DOMAIN_NAME}
+      - traefik.frontend.rule=Host:cache-${DOMAIN_NAME}
     <<: *network
 
   db:
@@ -98,7 +98,7 @@ services:
       - PUBLISH_ALLOWED_ORIGINS=${HTTP_OR_SSL}
       - DEMO=1
     labels:
-      - traefik.frontend.rule=Host:mercure.${DOMAIN_NAME}
+      - traefik.frontend.rule=Host:mercure-${DOMAIN_NAME}
     <<: *network
 
   client:
@@ -113,7 +113,7 @@ services:
     expose:
       - 3000
     labels:
-      - traefik.frontend.rule=Host:dev.${DOMAIN_NAME}
+      - traefik.frontend.rule=Host:dev-${DOMAIN_NAME}
       - traefik.port=3000
     <<: *client-ssr-env
     <<: *network
@@ -125,14 +125,14 @@ services:
       cache_from:
         - ${CONTAINER_REGISTRY_BASE}/admin
     environment:
-      - REACT_APP_API_ENTRYPOINT=${HTTP_OR_SSL}api.${DOMAIN_NAME}
+      - REACT_APP_API_ENTRYPOINT=${HTTP_OR_SSL}api-${DOMAIN_NAME}
     volumes:
       - ./admin:/usr/src/admin:rw,cached
       - /usr/src/admin/node_modules
     expose:
       - 3000
     labels:
-      - traefik.frontend.rule=Host:admin.${DOMAIN_NAME}
+      - traefik.frontend.rule=Host:admin-${DOMAIN_NAME}
       - traefik.port=3000
     <<: *network
 
@@ -148,7 +148,7 @@ services:
     expose:
       - 3000
     labels:
-      - traefik.frontend.rule=Host:${DOMAIN_NAME},www.${DOMAIN_NAME}
+      - traefik.frontend.rule=Host:${DOMAIN_NAME}
       - traefik.port=3000
     <<: *client-ssr-env
     <<: *network
